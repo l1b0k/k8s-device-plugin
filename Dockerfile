@@ -1,15 +1,15 @@
-FROM nvidia/cuda:8.0-devel-ubuntu16.04
+FROM nvidia/cuda:8.0-devel-centos7 as build
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        g++ \
+RUN yum install -y \
+        gcc-c++ \
         ca-certificates \
         wget \
         cuda-cudart-dev-8-0 \
         cuda-misc-headers-8-0 \
         cuda-nvml-dev-8-0 && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/cache/yum/*
 
-ENV GOLANG_VERSION 1.10
+ENV GOLANG_VERSION 1.10.3
 RUN wget -nv -O - https://storage.googleapis.com/golang/go${GOLANG_VERSION}.linux-amd64.tar.gz \
     | tar -C /usr/local -xz
 ENV GOPATH /go
